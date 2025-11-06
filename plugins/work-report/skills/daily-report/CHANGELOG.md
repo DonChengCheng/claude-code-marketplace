@@ -97,7 +97,7 @@
 在 v1.0.0 版本中,从 Git 提交记录生成日报时,只会查询当前分支的提交,导致在其他功能分支上的工作被遗漏。
 
 **具体案例**:
-- 用户在 `f.115.com` 项目的 `feat/chat-improvements` 分支完成了 5 个提交
+- 用户在 `example-web-app` 项目的 `feat/chat-improvements` 分支完成了 5 个提交
 - 当前工作分支是 `fix_bug`
 - 使用旧版本生成日报时,只能看到 `fix_bug` 分支的 3 个提交
 - **结果**: 5 个任务被遗漏,日报不完整
@@ -161,23 +161,23 @@ allowed-tools:
 
 ```bash
 # 项目结构
-/Users/dongchengcheng/www/web/
-  ├── 115life_weixin_0704/
+/path/to/projects/
+  ├── my-mobile-app/
   │   ├── master (2个提交)
   │   └── patch1 (当前分支)
-  └── f.115.com/
+  └── example-web-app/
       ├── fix_bug (3个提交,当前分支)
       └── feat/chat-improvements (5个提交) ⚠️ 旧版本会遗漏
 ```
 
 **使用新版本**:
 ```
-用户: 根据 /Users/dongchengcheng/www/web 下的 115life_weixin_0704 和 f.115.com 的 git 提交记录生成今天的日报
+用户: 根据 /path/to/projects 下的 my-mobile-app 和 example-web-app 的 git 提交记录生成今天的日报
 
 Agent: 已扫描所有分支,发现 10 个提交:
-       - 115life_weixin_0704: 2个
-       - f.115.com (fix_bug): 3个
-       - f.115.com (feat/chat-improvements): 5个 ✅ 不再遗漏!
+       - my-mobile-app: 2个
+       - example-web-app (fix_bug): 3个
+       - example-web-app (feat/chat-improvements): 5个 ✅ 不再遗漏!
 
        正在生成完整日报...
 ```

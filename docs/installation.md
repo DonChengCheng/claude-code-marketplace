@@ -86,9 +86,9 @@ vim platform-config.json
 
 ```json
 {
-  "f.115.com": "网页",
-  "weixin-worktree": "网页",
-  "115life_weixin_0704": "微信小程序",
+  "example-web-app": "网页",
+  "test-web-project": "网页",
+  "my-mobile-app": "微信小程序",
   "your-project-name": "你的平台名称"
 }
 ```

@@ -99,9 +99,9 @@
 
 ```json
 {
-  "f.115.com": "网页",
-  "weixin-worktree": "网页",
-  "115life_weixin_0704": "微信小程序",
+  "example-web-app": "网页",
+  "my-mobile-app": "移动端",
+  "test-project": "测试项目",
   "your-project-name": "你的平台名称"
 }
 ```

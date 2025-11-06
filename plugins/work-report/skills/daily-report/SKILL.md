@@ -173,10 +173,10 @@ allowed-tools: Read, Write, Edit, Bash(date:*), Bash(git log:*), Bash(git config
    - 读取 `.claude/skills/daily-report/platform-config.json` 配置文件
    - 获取项目路径与平台名称的映射关系
    - 示例映射:
-     - `f.115.com` → 网页
-     - `115life_weixin_0704` → 微信小程序
-     - `weixin-worktree` → 网页
-     - `api-yun-115-com` → 网页
+     - `example-web-app` → 网页
+     - `my-mobile-app` → 微信小程序
+     - `test-web-project` → 网页
+     - `api-backend` → 网页
 
 2. **询问数据源**
    - 使用 AskUserQuestion 询问用户选择数据源类型
@@ -425,9 +425,9 @@ if (任务是新任务) {
    - 如果提交数量过多,提示用户是否需要手动筛选
    - **示例**: `git -C /path/to/project log --all --since=...` 而不是 `cd /path && git log`
 8. **保持工作目录不变**:
-   - 整个执行过程中，工作目录必须保持在 `/Users/dongchengcheng/work-report/`
+   - 整个执行过程中，工作目录必须保持在 `/path/to/your-project/`
    - 所有涉及其他项目的操作都使用绝对路径或 `git -C` 参数
-   - 日报文件必须保存到 `/Users/dongchengcheng/work-report/日报_YYYY-MM-DD.md`
+   - 日报文件必须保存到 `/path/to/your-project/日报_YYYY-MM-DD.md`
    - 不允许使用任何会改变工作目录的命令（cd、pushd、popd等）
 
 ## 错误处理

@@ -1,6 +1,6 @@
 ---
 description: 生成当前分支相对于 upstream/master 的 PR 内容总结并保存到 markdown 文件
-allowed-tools: Bash, Bash(bash /Users/dongchengcheng/.claude/scripts/summarize-pr.sh *), Read, Write
+allowed-tools: Bash, Bash(bash /path/to/scripts/summarize-pr.sh *), Read, Write
 argument-hint: [base-branch]
 ---
 
@@ -12,7 +12,7 @@ argument-hint: [base-branch]
 
 ```bash
 # 执行PR分析脚本
-bash /Users/dongchengcheng/.claude/scripts/summarize-pr.sh $1
+bash /path/to/scripts/summarize-pr.sh $1
 ```
 
 脚本将输出以下信息：
