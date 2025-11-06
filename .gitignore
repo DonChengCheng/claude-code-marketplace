@@ -1,0 +1,34 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Logs
+logs/
+*.log
+
+# Generated files
+日报_*.md
+周报_*.md
+*工作月报.md
+CLAUDE.local.md
+PR-*.md
+
+# Temporary files
+*.tmp
+*.temp
+
+# Environment
+.env
+.env.local

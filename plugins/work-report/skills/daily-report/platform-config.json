@@ -1,0 +1,11 @@
+{
+  "projectPlatformMapping": {
+    "f.115.com": "网页",
+    "weixin-worktree": "网页",
+    "api-yun-115-com": "网页",
+    "115life_weixin_0704": "微信小程序",
+    "assets.116cd.com": "网页"
+  },
+  "description": "项目路径与平台名称的映射关系配置",
+  "usage": "根据 git 提交记录所在的项目路径，自动识别任务所属平台"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "work-report",
+  "version": "1.0.0",
+  "description": "智能工作报告生成工具 - 支持日报、周报、月报的自动生成、数据聚合与多源整合",
+  "author": {
+    "name": "dongchengcheng",
+    "email": "dongchengcheng@example.com"
+  },
+  "keywords": [
+    "工作报告",
+    "日报",
+    "周报",
+    "月报",
+    "report",
+    "productivity",
+    "中文"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dongchengcheng/claude-code-marketplace"
+  },
+  "license": "MIT"
+}
