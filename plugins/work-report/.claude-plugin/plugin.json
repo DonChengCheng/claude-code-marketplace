@@ -15,9 +15,6 @@
     "productivity",
     "中文"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dongchengcheng/claude-code-marketplace"
-  },
+  "repository": "https://github.com/DonChengCheng/claude-code-marketplace",
   "license": "MIT"
 }
