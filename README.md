@@ -43,21 +43,31 @@
 
 ## 🚀 安装方法
 
-### 安装整个市场
+### 方法 1：直接安装（推荐）
 
 ```bash
-# 安装市场（包含所有插件）
-/plugin install <marketplace-url>
+# 安装整个市场（包含所有插件）
+/plugin install https://github.com/DonChengCheng/claude-code-marketplace
 ```
 
-### 安装单个插件
+### 方法 2：添加市场后浏览安装
+
+```bash
+# 1. 添加市场到插件管理器
+/plugin marketplace add DonChengCheng/claude-code-marketplace
+
+# 2. 打开插件浏览器，选择并安装需要的插件
+/plugin
+```
+
+### 方法 3：安装单个插件
 
 ```bash
 # 只安装工作报告插件
-/plugin install work-report@<marketplace-name>
+/plugin install work-report@DonChengCheng/claude-code-marketplace
 
 # 只安装工具集插件
-/plugin install utils@<marketplace-name>
+/plugin install utils@DonChengCheng/claude-code-marketplace
 ```
 
 ---
@@ -88,8 +98,9 @@
 
 ```json
 {
-  "your-project-path": "平台名称",
-  "f.115.com": "网页"
+  "example-web-app": "网页",
+  "my-mobile-app": "移动端",
+  "your-project-name": "你的平台名称"
 }
 ```
 
