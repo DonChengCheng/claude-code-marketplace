@@ -1,20 +1,26 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "claude-code-marketplace",
+  "version": "1.0.0",
   "description": "Claude Code 插件市场 - 包含工作报告生成、实用工具等插件",
   "owner": {
     "name": "dongchengcheng",
-    "url": "https://github.com/dongchengcheng"
+    "email": "chengchengdong20@gmail.com"
   },
   "plugins": [
     {
       "name": "work-report",
-      "path": "plugins/work-report",
-      "description": "工作报告自动生成工具，支持日报、周报、月报的智能生成与数据聚合"
+      "source": "./plugins/work-report",
+      "description": "工作报告自动生成工具，支持日报、周报、月报的智能生成与数据聚合",
+      "version": "1.0.0",
+      "category": "productivity"
     },
     {
       "name": "utils",
-      "path": "plugins/utils",
-      "description": "实用工具集合，包含 commit 总结、PR 摘要生成等开发辅助命令"
+      "source": "./plugins/utils",
+      "description": "实用工具集合，包含 commit 总结、PR 摘要生成等开发辅助命令",
+      "version": "1.0.0",
+      "category": "development"
     }
   ]
 }
