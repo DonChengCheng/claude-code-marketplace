@@ -21,6 +21,13 @@
       "description": "实用工具集合，包含 commit 总结、PR 摘要生成等开发辅助命令",
       "version": "1.0.0",
       "category": "development"
+    },
+    {
+      "name": "dev-tools",
+      "source": "./plugins/dev-tools",
+      "description": "开发工具集 - 代码清理、审查、调试和架构设计专家 Agents",
+      "version": "1.0.0",
+      "category": "development"
     }
   ]
 }

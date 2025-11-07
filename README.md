@@ -39,6 +39,27 @@
 - `/summarize-pr` - 生成 PR 内容摘要（支持指定 base 分支）
 - `/summary` - 对话内容总结与改进点分析
 
+**包含 Skills：**
+- `summarize-pr` - PR 摘要生成智能 Agent
+
+---
+
+### 3. Dev Tools（开发工具集）
+
+专业开发工具集，包含 4 个专家级 Agents，提升代码质量和开发效率。
+
+**包含 Agents：**
+- `code-cleanup` - 代码清理专家：清理冗余、调试代码和失败的修复尝试
+- `code-review-specialist` - 代码审查专家：质量分析、安全漏洞检测
+- `debug-specialist` - 调试专家：错误诊断、根因分析、问题解决
+- `feature-architect` - 功能架构师：全栈功能设计和架构规划
+
+**主要功能：**
+- 🧹 **智能清理**：自动识别和清理无用代码
+- 🔍 **深度审查**：全面的代码质量和安全检查
+- 🐛 **专业调试**：系统化的错误诊断和解决
+- 🏗️ **架构设计**：专业的功能设计和实现规划
+
 ---
 
 ## 🚀 安装方法
@@ -68,6 +89,9 @@
 
 # 只安装工具集插件
 /plugin install utils@DonChengCheng/claude-code-marketplace
+
+# 只安装开发工具集插件
+/plugin install dev-tools@DonChengCheng/claude-code-marketplace
 ```
 
 ---
