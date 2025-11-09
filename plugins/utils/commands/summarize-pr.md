@@ -6,4 +6,8 @@ argument-hint: [base-branch]
 
 请使用 **summarize-pr** skill 来生成 PR 摘要。
 
-传递参数：`$1`（基准分支名称，可选）
+**参数说明**：
+- 如果提供了 `$1` 参数，使用指定的基准分支：`$1`
+- 如果未提供参数，默认使用 `upstream/master`
+
+请将基准分支参数传递给 skill。
