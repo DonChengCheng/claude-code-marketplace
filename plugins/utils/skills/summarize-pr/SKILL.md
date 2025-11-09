@@ -119,12 +119,36 @@ git diff --name-status <merge-base>..HEAD
 
 ## 输出要求
 
-### 1. 文件保存
+<CRITICAL-REQUIREMENT>
 
-将生成的 PR 摘要保存到文件：
-- 文件名：`PR-summary-<current-branch>.md`
-- 位置：项目根目录
-- 格式：Markdown
+### 1. 文件保存 - MANDATORY
+
+**YOU MUST call the Write tool to save the file. This is NOT optional.**
+
+Before calling Write tool:
+1. Add TodoWrite task: "Save PR summary to file with Write tool"
+2. Mark it as in_progress before calling Write
+
+Then call Write tool with:
+- **file_path**: `PR-summary-<current-branch>.md` (use actual branch name)
+- **content**: Complete PR summary in Markdown format
+- **location**: Project root directory
+
+After calling Write:
+3. Mark the TodoWrite task as completed
+4. Verify file was created successfully
+
+**Common Rationalizations to AVOID:**
+- ❌ "Showing output to console is sufficient" - NO, you MUST save file
+- ❌ "User can copy from console" - NO, you MUST use Write tool
+- ❌ "File saving is optional" - NO, it is MANDATORY
+
+**If Write tool fails:**
+- Report the error clearly to user
+- Do NOT mark task as completed
+- Do NOT claim success
+
+</CRITICAL-REQUIREMENT>
 
 ### 2. 控制台输出
 
@@ -133,8 +157,9 @@ git diff --name-status <merge-base>..HEAD
 ### 3. 提示信息
 
 告知用户：
-- PR 摘要已保存到哪个文件
+- PR 摘要已保存到哪个文件（显示完整路径）
 - 可以直接复制内容用于创建 PR
+- 确认文件创建成功
 
 ## 注意事项
 
@@ -179,12 +204,21 @@ feat: 聊天功能禁言管理和图片消息优化
 
 ## 工作流程总结
 
+**MANDATORY CHECKLIST - Create these TodoWrite tasks:**
+
 1. ✅ 使用 TodoWrite 创建任务列表
 2. ✅ 获取分支和基准信息
 3. ✅ 收集提交历史和变更统计
 4. ✅ 分析并分类提交
 5. ✅ 生成 PR 标题和描述
-6. ✅ 保存到文件并显示
-7. ✅ 更新任务列表状态
+6. ✅ **【CRITICAL】使用 Write 工具保存文件** ← 必须调用 Write tool
+7. ✅ 验证文件已成功创建
+8. ✅ 在控制台显示摘要内容
+9. ✅ 更新任务列表状态
+
+**Step 6 verification:**
+- After calling Write tool, use Bash to verify: `ls -la PR-summary-*.md`
+- Confirm file exists and has content
+- If file missing, you FAILED - do not proceed
 
 现在开始执行 PR 摘要生成任务。
