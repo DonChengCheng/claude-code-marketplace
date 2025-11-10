@@ -32,15 +32,14 @@
 
 ### 2. Utils（开发工具集）
 
-开发辅助工具集合，提供 Git 提交总结、PR 摘要等实用命令。
+开发辅助工具集合，提供 Git 提交总结、PR 摘要生成等实用命令。
 
 **包含命令：**
 - `/commit-summary` - Git 提交内容总结并自动提交
-- `/summarize-pr` - 生成 PR 内容摘要（支持指定 base 分支）
-- `/summary` - 对话内容总结与改进点分析
+- `/pr-summary` - 生成 PR 内容摘要（支持指定 base 分支）
 
 **包含 Skills：**
-- `summarize-pr` - PR 摘要生成智能 Agent
+- `pr-summary-generator` - PR 摘要生成智能 Agent
 
 ---
 
@@ -157,22 +156,21 @@
 /commit-summary
 ```
 
-#### PR 摘要
+#### PR 摘要生成
 
 ```bash
 # 相对于 upstream/master 生成 PR 摘要
-/summarize-pr
+/pr-summary
 
 # 指定 base 分支
-/summarize-pr main
+/pr-summary origin/main
 ```
 
-#### 对话总结
-
-```bash
-# 总结本次对话内容
-/summary
-```
+**功能特点：**
+- 📝 只包含核心内容（新增功能、优化改进、问题修复）
+- 🎯 自动生成简洁的 PR 标题和描述
+- 💾 自动保存到 Markdown 文件
+- 🔍 智能基准分支检测（默认 upstream/master）
 
 ---
 
@@ -230,9 +228,19 @@ MIT License
 
 ## 📝 更新日志
 
+### v1.1.0 (2024-11-10)
+
+- 🔄 重构 PR 摘要功能
+  - 替换为新的 `pr-summary` 命令和 `pr-summary-generator` 技能
+  - 简化输出格式，只保留核心内容
+  - 优化基准分支处理逻辑
+  - 增强用户交互体验
+- 🗑️ 移除 `summary` 命令和 `summarize-pr` 相关功能
+
 ### v1.0.0 (2024-11-06)
 
 - 🎉 首次发布
 - ✅ 工作报告插件（日报、周报、月报）
 - ✅ 开发工具集插件（commit、PR、summary）
+- ✅ Dev Tools 插件（代码清理、审查、调试、架构）
 - ✅ 完整的文档和示例
