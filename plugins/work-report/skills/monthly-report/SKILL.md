@@ -147,7 +147,7 @@ allowed-tools: Read, Write, Edit, Bash(date:*), Glob, AskUserQuestion, TodoWrite
    ```
 
 4. **读取月报模板**
-   - 优先使用: `.claude/skills/monthly-report/template.md`
+   - 优先使用: `./template.md`
    - 备选: `./月报模板.md`
 
 5. **确认日期范围**

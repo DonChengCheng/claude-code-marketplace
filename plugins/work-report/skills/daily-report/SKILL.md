@@ -105,7 +105,7 @@ allowed-tools: Read, Write, Edit, Bash(date:*), Bash(git log:*), Bash(git config
 1. 获取当前日期 (格式: YYYY-MM-DD)
 2. 检查是否已存在今日日报文件 `日报_YYYY-MM-DD.md`
 3. 读取日报模板
-   - 优先使用: `.claude/skills/daily-report/template.md`
+   - 优先使用: `./template.md`
    - 备选: `./日报模板.md` (兼容旧版本)
 
 ### 第二步: 确定工作模式
@@ -170,7 +170,7 @@ allowed-tools: Read, Write, Edit, Bash(date:*), Bash(git log:*), Bash(git config
 **从 Git 提交记录生成日报的流程**:
 
 1. **加载平台配置**
-   - 读取 `.claude/skills/daily-report/platform-config.json` 配置文件
+   - 读取 `./platform-config.json` 配置文件
    - 获取项目路径与平台名称的映射关系
    - 示例映射:
      - `example-web-app` → 网页

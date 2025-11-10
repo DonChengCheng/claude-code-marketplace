@@ -149,7 +149,7 @@ allowed-tools: Read, Write, Edit, Bash(date:*), Glob, AskUserQuestion, TodoWrite
    **注意**: 文件名中的月份和日期需要从完整日期字符串中提取
 
 4. **读取周报模板**
-   - 优先使用: `.claude/skills/weekly-report/template.md`
+   - 优先使用: `./template.md`
    - 备选: `./周报模板.md`
 
 5. **确认日期范围**
