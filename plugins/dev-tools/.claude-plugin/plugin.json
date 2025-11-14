@@ -1,7 +1,7 @@
 {
   "name": "dev-tools",
-  "version": "1.0.0",
-  "description": "开发工具集 - 包含代码清理、代码审查、调试和功能架构等专家 Agents",
+  "version": "1.2.0",
+  "description": "专业开发工具集，包含 6 个专家级 Agents，支持工作流编排和自动化代码实现",
   "author": {
     "name": "dongchengcheng",
     "email": "chengchengdong20@gmail.com"

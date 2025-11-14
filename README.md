@@ -45,19 +45,29 @@
 
 ### 3. Dev Tools（开发工具集）
 
-专业开发工具集，包含 4 个专家级 Agents，提升代码质量和开发效率。
+专业开发工具集，包含 6 个专家级 Agents，提升代码质量和开发效率。支持智能工作流编排和全自动化代码实现，从设计到清理的完整开发流程。
 
 **包含 Agents：**
+- `workflow-orchestrator` - 工作流编排器：智能识别任务意图，自动编排多 Agent 协作流程
+- `code-implementation-specialist` - 代码实现专家：TDD 驱动的自动化代码实现，替代手动编码
 - `code-cleanup` - 代码清理专家：清理冗余、调试代码和失败的修复尝试
 - `code-review-specialist` - 代码审查专家：质量分析、安全漏洞检测
 - `debug-specialist` - 调试专家：错误诊断、根因分析、问题解决
 - `feature-architect` - 功能架构师：全栈功能设计和架构规划
 
 **主要功能：**
+- 🎯 **工作流自动化**：自动识别任务类型，编排最佳 Agent 执行顺序
+- 🤖 **自动化实现**：TDD 驱动的代码自动生成，执行计划→测试→实现→验证
 - 🧹 **智能清理**：自动识别和清理无用代码
 - 🔍 **深度审查**：全面的代码质量和安全检查
 - 🐛 **专业调试**：系统化的错误诊断和解决
 - 🏗️ **架构设计**：专业的功能设计和实现规划
+
+**工作流模式：**
+- **功能开发流程**：架构设计 → **自动TDD实现** → 审查 → 清理
+- **Bug 修复流程**：问题诊断 → **自动修复+回归测试** → 验证 → 清理
+- **代码审查流程**：质量检查 → 可选清理
+- **重构流程**：重构设计 → **自动增量重构** → 验证 → 清理
 
 ---
 
@@ -172,6 +182,66 @@
 - 💾 自动保存到 Markdown 文件
 - 🔍 智能基准分支检测（默认 upstream/master）
 
+### Dev Tools 插件
+
+#### 工作流编排器使用
+
+**自动模式**（推荐）：
+
+```bash
+# 功能开发 - 自动触发 feature-development 工作流
+"我需要实现用户认证功能"
+
+# Bug 修复 - 自动触发 bug-fix 工作流
+"登录接口报错 TypeError"
+
+# 代码审查 - 自动触发 quality-check 工作流
+"审查这段代码"
+
+# 代码重构 - 自动触发 refactoring 工作流
+"重构 API 层使用更好的模式"
+```
+
+**自定义工作流**：
+
+```bash
+# 指定执行特定 Agents
+"运行 feature-architect 和 code-review，跳过 cleanup"
+
+# 条件执行
+"审查代码，如果有问题才执行清理"
+
+# 并行执行
+"同时运行 code-review 和 pr-summary"
+```
+
+**工作流控制命令**：
+- `done` - 完成手动工作，继续下一阶段
+- `pause` - 暂停工作流
+- `skip [stage]` - 跳过可选阶段
+- `status` - 查看当前工作流状态
+- `cancel` - 取消工作流
+
+**工作流示例**：
+
+```
+功能开发流程（5 阶段）：
+  [1/5] feature-architect
+        → 需求分析、架构设计、实现计划
+  [2/5] 👤 用户手动实现代码
+        → 提示："Type 'done' when ready for review"
+  [3/5] code-review-specialist
+        → 质量检查、安全审查、最佳实践验证
+  [4/5] ⚠️ 质量门检查
+        → PASS: 继续 | FAIL: 启动 debug-specialist
+  [5/5] code-cleanup
+        → 清理调试代码、注释代码、未使用导入
+
+✅ 工作流完成！
+```
+
+详细文档：`plugins/dev-tools/docs/workflow-patterns.md`
+
 ---
 
 ## 📁 项目结构
@@ -188,10 +258,24 @@ claude-code-marketplace/
 │   │   ├── skills/               # Agent 技能
 │   │   ├── hooks/                # 钩子
 │   │   └── README.md
-│   └── utils/                    # 工具集插件
+│   ├── utils/                    # 工具集插件
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   ├── commands/
+│   │   ├── skills/
+│   │   └── README.md
+│   └── dev-tools/                # 开发工具集插件
 │       ├── .claude-plugin/
 │       │   └── plugin.json
-│       ├── commands/
+│       ├── agents/               # 专家级 Agents
+│       │   ├── workflow-orchestrator.md
+│       │   ├── code-cleanup.md
+│       │   ├── code-review-specialist.md
+│       │   ├── debug-specialist.md
+│       │   └── feature-architect.md
+│       ├── docs/                 # 文档
+│       │   ├── workflow-patterns.md
+│       │   └── agent-collaboration.md
 │       └── README.md
 ├── docs/
 │   └── installation.md           # 详细安装指南
@@ -228,14 +312,38 @@ MIT License
 
 ## 📝 更新日志
 
+### v1.2.0 (2025-11-12)
+
+- 🤖 新增自动化代码实现 Agent
+  - `code-implementation-specialist` - TDD 驱动的全自动代码实现
+  - 替换工作流中的手动编码步骤
+  - 支持执行计划创建和用户审批
+  - RED-GREEN-REFACTOR TDD 循环实现
+  - 智能错误修复（3次重试）with debug-specialist 逻辑
+  - 模糊决策时的用户咨询
+  - 综合验证（测试、Linter、类型检查、构建）
+  - 与 workflow-orchestrator 无缝集成
+- 🔄 更新所有工作流模式以支持自动化实现
+  - Feature Development: 自动 TDD 实现
+  - Bug Fix: 自动修复 + 回归测试
+  - Refactoring: 自动增量重构
+- 📚 完善工作流文档和使用示例
+
 ### v1.1.0 (2024-11-10)
 
 - 🔄 重构 PR 摘要功能
   - 替换为新的 `pr-summary` 命令和 `pr-summary-generator` 技能
   - 简化输出格式，只保留核心内容
-  - 优化基准分支处理逻辑
+  - 优化基准分志处理逻辑
   - 增强用户交互体验
 - 🗑️ 移除 `summary` 命令和 `summarize-pr` 相关功能
+- ✨ 新增工作流编排器 Agent
+  - `workflow-orchestrator` - 智能多 Agent 工作流编排
+  - 支持 4 种预定义工作流：功能开发、Bug 修复、代码审查、重构
+  - 自动识别任务意图，编排最佳执行顺序
+  - 支持质量门检查、手动介入点、并行执行
+  - 完善的工作流文档和使用示例
+- 📝 更新工作报告技能模板路径为相对路径
 
 ### v1.0.0 (2024-11-06)
 
