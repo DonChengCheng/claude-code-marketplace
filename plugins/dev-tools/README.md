@@ -1,6 +1,45 @@
 # Dev Tools Plugin
 
-专业开发工具集插件，包含 6 个专家级 Agent，支持智能工作流编排和自动化代码实现。
+专业开发工具集插件，包含 6 个专家级 Agent、1 个开发流程 Skill 和 1 个自定义命令，支持完整功能开发工作流。
+
+## 🎯 快速开始
+
+使用自定义命令启动完整功能开发流程：
+
+```
+/dev-tools:develop-feature 实现用户认证功能
+```
+
+该命令会触发 `feature-development-workflow` Skill，自动协调各个 Agent 完成：
+1. **需求分析** → 收集和澄清需求
+2. **架构设计** → `feature-architect` 设计方案
+3. **代码实现** → `code-implementation-specialist` TDD 实现
+4. **代码审查** → `code-review-specialist` 质量检查
+5. **代码清理** → `code-cleanup` 清理调试代码
+
+---
+
+## 📁 插件结构
+
+```
+dev-tools/
+├── agents/                    # 6 个专家级 Agent
+│   ├── code-review-specialist.md
+│   ├── debug-specialist.md
+│   ├── feature-architect.md
+│   ├── code-implementation-specialist.md
+│   ├── code-cleanup.md
+│   └── workflow-orchestrator.md
+├── skills/                    # 开发流程 Skill
+│   └── feature-development-workflow/
+│       └── SKILL.md
+├── commands/                  # 自定义命令
+│   └── develop-feature.md
+└── docs/
+    └── workflow-patterns.md
+```
+
+---
 
 ## 📦 包含的 Agents
 
@@ -115,9 +154,19 @@
 
 ## 🚀 使用方式
 
-这些 Agent 通过 Claude Code 的 Task 工具自动调用，系统会根据任务类型智能选择合适的 Agent。
+### 方式一：使用自定义命令（推荐）
 
-### 自动触发场景
+```bash
+# 启动完整功能开发流程
+/dev-tools:develop-feature 实现用户通知系统
+
+# 不带参数时会交互式询问需求
+/dev-tools:develop-feature
+```
+
+### 方式二：直接调用 Agent
+
+这些 Agent 通过 Claude Code 的 Task 工具自动调用，系统会根据任务类型智能选择合适的 Agent。
 
 | Agent | 触发场景 |
 |-------|---------|
@@ -128,7 +177,7 @@
 | Workflow Orchestrator | 执行完整开发流程 |
 | Code Implementation | 架构设计完成后的自动实现 |
 
-### 手动使用
+### 方式三：手动指定 Agent
 
 ```
 "请用 code-review-specialist 审查这段代码"
@@ -137,25 +186,36 @@
 "用 workflow-orchestrator 实现一个新功能"
 ```
 
+---
+
 ## 🔄 工作流示例
 
-### 完整功能开发流程
+### 使用命令启动完整流程
 
 ```bash
-# 1. 使用工作流编排器
-"实现一个用户通知系统"
+/dev-tools:develop-feature 实现用户通知系统
 
-# Orchestrator 自动执行:
-# → feature-architect (设计)
-# → code-implementation-specialist (TDD实现)
-# → code-review-specialist (审查)
-# → code-cleanup (清理)
+# Skill 自动协调执行:
+# Phase 1: 需求分析和代码库探索
+# Phase 2: feature-architect (架构设计)
+# Phase 3: code-implementation-specialist (TDD实现)
+# Phase 4: code-review-specialist (代码审查)
+# Phase 5: code-cleanup (代码清理)
+# Phase 6: 完成总结
+```
 
-# 2. 或手动逐步执行
+### 手动逐步执行
+
+```bash
+# 1. 设计阶段
 "用 feature-architect 设计通知系统"
 # ... 审核设计 ...
+
+# 2. 实现阶段
 "用 code-implementation-specialist 实现设计"
 # ... 审核代码 ...
+
+# 3. 审查阶段
 "用 code-review-specialist 审查代码"
 ```
 
