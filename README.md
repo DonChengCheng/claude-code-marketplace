@@ -16,9 +16,9 @@
 - 🔗 **Git 集成**：支持从 Git 提交记录导入任务数据
 
 **包含命令：**
-- `/generate-daily-report` - 生成日报
-- `/generate-weekly-report` - 生成周报
-- `/generate-monthly-report` - 生成月报
+- `/work-report:generate-daily-report` - 生成日报
+- `/work-report:generate-weekly-report` - 生成周报
+- `/work-report:generate-monthly-report` - 生成月报
 
 **包含 Skills：**
 - `daily-report` - 日报生成智能 Agent
@@ -35,8 +35,8 @@
 开发辅助工具集合，提供 Git 提交总结、PR 摘要生成等实用命令。
 
 **包含命令：**
-- `/commit-summary` - Git 提交内容总结并自动提交
-- `/pr-summary` - 生成 PR 内容摘要（支持指定 base 分支）
+- `/utils:commit-summary` - Git 提交内容总结并自动提交
+- `/utils:pr-summary` - 生成 PR 内容摘要（支持指定 base 分支）
 
 **包含 Skills：**
 - `pr-summary-generator` - PR 摘要生成智能 Agent
@@ -45,7 +45,13 @@
 
 ### 3. Dev Tools（开发工具集）
 
-专业开发工具集，包含 6 个专家级 Agents，提升代码质量和开发效率。支持智能工作流编排和全自动化代码实现，从设计到清理的完整开发流程。
+专业开发工具集，包含 6 个专家级 Agents、1 个开发流程 Skill 和 1 个自定义命令。支持智能工作流编排和全自动化代码实现，从设计到清理的完整开发流程。
+
+**包含命令：**
+- `/dev-tools:develop-feature` - 启动完整功能开发流程
+
+**包含 Skills：**
+- `feature-development-workflow` - 功能开发工作流：自动协调架构设计、代码实现、审查和清理
 
 **包含 Agents：**
 - `workflow-orchestrator` - 工作流编排器：智能识别任务意图，自动编排多 Agent 协作流程
@@ -113,16 +119,16 @@
 
 ```bash
 # 交互式生成
-/generate-daily-report
+/work-report:generate-daily-report
 
 # 从 Git 提交导入
-/generate-daily-report /path/to/project
+/work-report:generate-daily-report /path/to/project
 
 # 继续昨日任务
-/generate-daily-report continue
+/work-report:generate-daily-report continue
 
 # 使用空模板
-/generate-daily-report template
+/work-report:generate-daily-report template
 ```
 
 **配置平台映射**（可选）：
@@ -141,20 +147,20 @@
 
 ```bash
 # 自动聚合本周日报
-/generate-weekly-report
+/work-report:generate-weekly-report
 
 # 指定数据源
-/generate-weekly-report /path/to/reports
+/work-report:generate-weekly-report /path/to/reports
 ```
 
 #### 3. 生成月报
 
 ```bash
 # 智能混合模式（推荐）
-/generate-monthly-report
+/work-report:generate-monthly-report
 
 # 只使用周报
-/generate-monthly-report weekly-only
+/work-report:generate-monthly-report weekly-only
 ```
 
 ### Utils 插件
@@ -163,17 +169,17 @@
 
 ```bash
 # 总结当前更改并生成 commit
-/commit-summary
+/utils:commit-summary
 ```
 
 #### PR 摘要生成
 
 ```bash
 # 相对于 upstream/master 生成 PR 摘要
-/pr-summary
+/utils:pr-summary
 
 # 指定 base 分支
-/pr-summary origin/main
+/utils:pr-summary origin/main
 ```
 
 **功能特点：**
@@ -184,9 +190,29 @@
 
 ### Dev Tools 插件
 
-#### 工作流编排器使用
+#### 功能开发命令（推荐）
 
-**自动模式**（推荐）：
+```bash
+# 启动完整功能开发流程
+/dev-tools:develop-feature 实现用户认证功能
+
+# 带详细描述
+/dev-tools:develop-feature Add a notification system with email and push support
+
+# 交互式模式（不带参数）
+/dev-tools:develop-feature
+```
+
+该命令会自动协调以下阶段：
+1. 需求分析和代码库探索
+2. 架构设计 (feature-architect)
+3. TDD 代码实现 (code-implementation-specialist)
+4. 代码审查 (code-review-specialist)
+5. 代码清理 (code-cleanup)
+
+#### 自然语言触发 Agents
+
+除了使用命令，也可以通过自然语言触发各个 Agent：
 
 ```bash
 # 功能开发 - 自动触发 feature-development 工作流
@@ -202,40 +228,16 @@
 "重构 API 层使用更好的模式"
 ```
 
-**自定义工作流**：
-
-```bash
-# 指定执行特定 Agents
-"运行 feature-architect 和 code-review，跳过 cleanup"
-
-# 条件执行
-"审查代码，如果有问题才执行清理"
-
-# 并行执行
-"同时运行 code-review 和 pr-summary"
-```
-
-**工作流控制命令**：
-- `done` - 完成手动工作，继续下一阶段
-- `pause` - 暂停工作流
-- `skip [stage]` - 跳过可选阶段
-- `status` - 查看当前工作流状态
-- `cancel` - 取消工作流
-
 **工作流示例**：
 
 ```
-功能开发流程（5 阶段）：
-  [1/5] feature-architect
-        → 需求分析、架构设计、实现计划
-  [2/5] 👤 用户手动实现代码
-        → 提示："Type 'done' when ready for review"
-  [3/5] code-review-specialist
-        → 质量检查、安全审查、最佳实践验证
-  [4/5] ⚠️ 质量门检查
-        → PASS: 继续 | FAIL: 启动 debug-specialist
-  [5/5] code-cleanup
-        → 清理调试代码、注释代码、未使用导入
+功能开发流程（6 阶段）：
+  [1/6] 需求分析与上下文收集
+  [2/6] feature-architect → 架构设计
+  [3/6] code-implementation-specialist → TDD 实现
+  [4/6] code-review-specialist → 代码审查
+  [5/6] 质量门检查 → PASS/FAIL
+  [6/6] code-cleanup → 代码清理
 
 ✅ 工作流完成！
 ```
@@ -251,34 +253,41 @@ claude-code-marketplace/
 ├── .claude-plugin/
 │   └── marketplace.json          # 市场配置
 ├── plugins/
-│   ├── work-report/              # 工作报告插件
+│   ├── work-report/              # 工作报告插件 (v1.0.0)
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json
-│   │   ├── commands/             # 斜杠命令
-│   │   ├── skills/               # Agent 技能
-│   │   ├── hooks/                # 钩子
+│   │   ├── commands/             # 3 个斜杠命令
+│   │   ├── skills/               # 3 个 Skills + 共享资源
+│   │   │   ├── daily-report/
+│   │   │   ├── weekly-report/
+│   │   │   ├── monthly-report/
+│   │   │   └── shared/
+│   │   ├── hooks/                # 工作目录保护 Hook
 │   │   └── README.md
-│   ├── utils/                    # 工具集插件
+│   ├── utils/                    # 工具集插件 (v1.1.0)
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json
-│   │   ├── commands/
-│   │   ├── skills/
+│   │   ├── commands/             # 2 个斜杠命令
+│   │   ├── skills/               # 1 个 Skill
+│   │   │   └── pr-summary-generator/
 │   │   └── README.md
-│   └── dev-tools/                # 开发工具集插件
+│   └── dev-tools/                # 开发工具集插件 (v1.3.0)
 │       ├── .claude-plugin/
 │       │   └── plugin.json
-│       ├── agents/               # 专家级 Agents
+│       ├── agents/               # 6 个专家级 Agents
 │       │   ├── workflow-orchestrator.md
+│       │   ├── code-implementation-specialist.md
 │       │   ├── code-cleanup.md
 │       │   ├── code-review-specialist.md
 │       │   ├── debug-specialist.md
 │       │   └── feature-architect.md
-│       ├── docs/                 # 文档
-│       │   ├── workflow-patterns.md
-│       │   └── agent-collaboration.md
+│       ├── commands/             # 1 个斜杠命令
+│       │   └── develop-feature.md
+│       ├── skills/               # 1 个 Skill
+│       │   └── feature-development-workflow/
+│       ├── docs/
+│       │   └── workflow-patterns.md
 │       └── README.md
-├── docs/
-│   └── installation.md           # 详细安装指南
 └── README.md                      # 本文件
 ```
 
