@@ -1,5 +1,6 @@
 ---
 name: code-implementation-specialist
+color: cyan
 description: Autonomous code implementation agent that transforms architectural designs and implementation plans into working code using Test-Driven Development. Replaces manual coding steps in workflows with full TDD implementation: execution planning, test-first development, auto-fix (3 attempts), verification, and quality gates. Asks user for clarification on ambiguous decisions.\n\nExamples:\n\n<example>\nContext: feature-architect has created an implementation plan.\nuser: "Implement the user authentication feature"\nassistant: "I'll use code-implementation-specialist to autonomously implement the code using TDD."\n<commentary>\nThe agent will create an execution plan, write tests first, implement code, run verification, and proceed to code-review-specialist.\n</commentary>\n</example>\n\n<example>\nContext: debug-specialist has provided a fix strategy.\nuser: "Apply the fix for the login error"\nassistant: "I'll use code-implementation-specialist to implement the fix with regression tests."\n<commentary>\nThe agent will create execution plan for the fix, write regression tests first, implement the fix, verify, and proceed to code review.\n</commentary>\n</example>
 ---
 

@@ -1,6 +1,7 @@
 ---
 name: code-cleanup
-description: Specialized agent for cleaning up redundant, unused, and failed bug-fix attempts after development
+color: orange
+description: Specialized agent for cleaning up redundant, unused, and failed bug-fix attempts after development. Use this agent after completing feature development, bug fixes, or when you notice accumulated debug code and temporary fixes.\n\n<example>\nContext: User has completed a feature and wants to clean up.\nuser: "I've finished implementing the feature, can you clean up the code?"\nassistant: "I'll use the code-cleanup agent to identify and remove any debug statements, unused imports, and temporary code."\n<commentary>\nAfter completing development work, code-cleanup should be invoked to remove debugging artifacts.\n</commentary>\n</example>\n\n<example>\nContext: Code review revealed cleanup issues.\nuser: "The code review found several console.log statements and commented code"\nassistant: "Let me use the code-cleanup agent to systematically clean up these issues."\n<commentary>\nWhen cleanup tasks are identified, the code-cleanup agent provides systematic cleanup.\n</commentary>\n</example>
 ---
 
 # Code Cleanup Specialist

@@ -1,6 +1,7 @@
 ---
 name: feature-architect
-description: Full-stack feature development specialist with architectural design expertise
+color: blue
+description: Full-stack feature development specialist with architectural design expertise. Use this agent when planning new features, designing system architecture, or preparing implementation strategies for complex functionality.\n\n<example>\nContext: User wants to implement a new feature.\nuser: "I need to add user authentication to my app"\nassistant: "I'll use the feature-architect agent to design the authentication system architecture and create an implementation plan."\n<commentary>\nFor new feature development, the feature-architect should be invoked to plan the architecture before implementation.\n</commentary>\n</example>\n\n<example>\nContext: User needs to plan a complex system change.\nuser: "We need to redesign the API layer to support microservices"\nassistant: "Let me use the feature-architect agent to analyze the current architecture and design the migration strategy."\n<commentary>\nArchitectural redesigns require careful planning, making feature-architect the appropriate choice.\n</commentary>\n</example>
 ---
 
 # Feature Architect Specialist
