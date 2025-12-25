@@ -21,39 +21,64 @@ description: 当用户需要生成PR摘要、分析分支差异、创建Pull Req
 ### 步骤 1: 创建任务跟踪
 
 使用 TodoWrite 创建检查清单:
-1. 收集 git 分支信息
-2. 分析提交历史
-3. 生成文件统计
-4. 创建 markdown 摘要
-5. 验证输出文件
+1. 收集远程和分支信息
+2. 更新基准分支
+3. 分析提交历史
+4. 生成文件统计
+5. 创建 markdown 摘要
+6. 验证输出文件
 
-### 步骤 2: 询问基准分支
+### 步骤 2: 询问远程仓库和基准分支
 
-使用 AskUserQuestion 询问用户:
+使用 AskUserQuestion 同时询问两个问题:
+
 ```
-"您想要与哪个分支进行比较生成 PR 摘要？"
-选项: main, master, develop, 或自定义分支名称
+问题1: "请选择远程仓库:"
+选项:
+  - origin (推荐)
+  - upstream
+  - 自定义远程名称
+
+问题2: "请选择基准分支:"
+选项:
+  - main
+  - master
+  - develop
+  - 自定义分支名称
 ```
+
+### 步骤 2.5: 更新基准分支
+
+从远程获取最新的基准分支代码:
+
+```bash
+# 获取指定远程的基准分支
+git fetch ${REMOTE} ${BASE_BRANCH}
+```
+
+**错误处理**:
+- 如果 fetch 失败，提示用户检查远程名称和分支是否正确
+- 如果网络问题，询问是否使用本地缓存继续
 
 ### 步骤 3: 收集 Git 信息
 
-并行执行以下命令:
+并行执行以下命令（使用 `${REMOTE}/${BASE_BRANCH}` 确保比较最新远程状态）:
 
 ```bash
 # 获取当前分支
 git rev-parse --abbrev-ref HEAD
 
-# 获取提交数量
-git rev-list --count HEAD ^${BASE_BRANCH}
+# 获取提交数量（与远程基准分支比较）
+git rev-list --count HEAD ^${REMOTE}/${BASE_BRANCH}
 
-# 获取提交历史
-git log ${BASE_BRANCH}..HEAD --pretty=format:"%h|%s|%an|%ar" --no-merges
+# 获取提交历史（与远程基准分支比较）
+git log ${REMOTE}/${BASE_BRANCH}..HEAD --pretty=format:"%h|%s|%an|%ar" --no-merges
 
-# 获取文件统计
-git diff --stat ${BASE_BRANCH}..HEAD
+# 获取文件统计（与远程基准分支比较）
+git diff --stat ${REMOTE}/${BASE_BRANCH}..HEAD
 
-# 获取变更文件列表
-git diff --name-status ${BASE_BRANCH}..HEAD
+# 获取变更文件列表（与远程基准分支比较）
+git diff --name-status ${REMOTE}/${BASE_BRANCH}..HEAD
 ```
 
 ### 步骤 4: 分析提交
@@ -81,11 +106,12 @@ git diff --name-status ${BASE_BRANCH}..HEAD
 **重要**: 所有内容使用中文生成，保持专业技术文档风格。提交信息保留原文。
 
 ```markdown
-# PR 摘要：[当前分支] → [基准分支]
+# PR 摘要：[当前分支] → [远程]/[基准分支]
 
 **生成时间：** [ISO 日期]
 **作者：** [Git 用户名]
-**分支：** `[当前分支]` → `[基准分支]`
+**分支：** `[当前分支]` → `[远程]/[基准分支]`
+**远程仓库：** [远程名称]
 **提交数：** [数量] 次提交
 **文件变更：** [数量] 个文件 (+[新增] -[删除])
 
