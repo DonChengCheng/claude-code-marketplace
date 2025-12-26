@@ -1,10 +1,10 @@
 ---
-description: 生成当前分支的 PR 内容摘要,分析提交历史和文件变更
+description: 生成当前分支的 MR 内容摘要，分析提交历史和文件变更
 allowed-tools: [Skill]
 argument-hint: [base-branch]
 ---
 
-请使用 **utils:pr-summary** skill 来生成 PR 摘要。
+请使用 **utils:mr-summary** skill 来生成 MR 摘要。
 
 **参数说明**：
 - 如果提供了 `$1` 参数，使用指定的基准分支：`$1`
