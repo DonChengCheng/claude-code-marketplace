@@ -14,22 +14,25 @@
       "name": "work-report",
       "source": "./plugins/work-report",
       "description": "工作报告自动生成工具，支持日报、周报、月报的智能生成与数据聚合",
-      "version": "1.1.0",
       "category": "productivity"
     },
     {
       "name": "utils",
       "source": "./plugins/utils",
       "description": "实用工具集合，包含 commit 总结、MR 摘要生成、GitLab MR 创建等开发辅助命令",
-      "version": "1.4.0",
       "category": "development"
     },
     {
       "name": "dev-tools",
       "source": "./plugins/dev-tools",
       "description": "专业开发工具集，包含 6 个专家级 Agents，支持工作流编排和自动化代码实现",
-      "version": "1.2.0",
       "category": "development"
+    },
+    {
+      "name": "article-generator",
+      "source": "./plugins/article-generator",
+      "description": "智能文章生成工具，支持多种文章类型、快速生成与引导式创作、Web搜索集成",
+      "category": "content"
     }
   ]
 }
