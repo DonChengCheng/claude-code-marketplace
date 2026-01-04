@@ -67,24 +67,35 @@ git -C /project2 log --all --since="2025-01-01"
 
 ## 平台配置
 
-### 配置文件位置
-`skills/daily-report/platform-config.json`
+### 配置文件查找顺序
+
+1. **项目配置**: `.work-report/platform-config.json`（当前工作目录）
+2. **全局配置**: `~/.claude/work-report/platform-config.json`
+
+如果两个位置都没有配置文件,则省略平台标签。
 
 ### 配置格式
 ```json
 {
-  "example-web-app": "网页",
-  "my-mobile-app": "微信小程序",
-  "test-project": "测试项目"
+  "projectPlatformMapping": {
+    "example-web-app": "网页",
+    "my-mobile-app": "微信小程序",
+    "test-project": "测试项目"
+  }
 }
 ```
 
 ### 平台识别逻辑
 
 1. 从项目路径中提取项目名称（最后一级目录名）
-2. 在 platform-config.json 中查找对应的平台名称
-3. 将平台信息与任务关联，用于总结部分显示
-4. 如果无法确定平台，默认标记为 `[未知平台]`
+2. 按优先级查找配置文件
+3. 在配置中查找对应的平台名称（支持部分匹配）
+4. 将平台信息与任务关联，用于总结部分显示
+5. **如果没有配置文件或项目未匹配,则省略平台标签**
+
+### 快速创建配置
+
+使用 `/config-platform` 命令可以快速创建配置文件。
 
 ---
 
@@ -110,7 +121,7 @@ git -C /project2 log --all --since="2025-01-01"
 | 进度 | 默认 100%（已提交表示已完成） |
 | 实际交付时间 | 使用提交时间 |
 | 接收任务时间 | 默认当天 09:00 |
-| 平台 | 从项目路径匹配 platform-config.json |
+| 平台 | 从配置文件匹配,无配置则省略 |
 
 ---
 
