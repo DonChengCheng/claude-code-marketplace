@@ -78,20 +78,30 @@ git -C /project2 log --all --since="2025-01-01"
 ```json
 {
   "projectPlatformMapping": {
-    "example-web-app": "网页",
-    "my-mobile-app": "微信小程序",
-    "test-project": "测试项目"
+    "example-web-app": {
+      "platform": "网页",
+      "path": "/Users/xxx/projects/example-web-app"
+    },
+    "my-mobile-app": {
+      "platform": "微信小程序",
+      "path": "/Users/xxx/projects/my-mobile-app"
+    },
+    "test-project": {
+      "platform": "测试项目",
+      "path": "/Users/xxx/projects/test-project"
+    }
   }
 }
 ```
 
 ### 平台识别逻辑
 
-1. 从项目路径中提取项目名称（最后一级目录名）
-2. 按优先级查找配置文件
-3. 在配置中查找对应的平台名称（支持部分匹配）
-4. 将平台信息与任务关联，用于总结部分显示
-5. **如果没有配置文件或项目未匹配,则省略平台标签**
+1. 按优先级查找配置文件
+2. 从配置中获取项目信息：
+   - `platform`：平台名称，用于总结部分显示
+   - `path`：项目路径，用于执行 `git -C <path>` 读取提交记录
+3. 将平台信息与任务关联
+4. **如果没有配置文件或项目未匹配,则省略平台标签**
 
 ### 快速创建配置
 
@@ -121,7 +131,7 @@ git -C /project2 log --all --since="2025-01-01"
 | 进度 | 默认 100%（已提交表示已完成） |
 | 实际交付时间 | 使用提交时间 |
 | 接收任务时间 | 默认当天 09:00 |
-| 平台 | 从配置文件匹配,无配置则省略 |
+| 平台 | 从配置文件的 `platform` 字段获取,无配置则省略 |
 
 ---
 

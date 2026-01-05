@@ -1,17 +1,17 @@
 {
-  "name": "utils",
-  "version": "1.5.2",
-  "description": "开发实用工具集 - Git 提交总结、PR 摘要生成、对话总结等辅助命令",
+  "name": "developer-toolkit",
+  "version": "2.0.0",
+  "description": "Git 工作流工具集，包含自动提交、MR 摘要生成和 GitLab MR 创建命令",
   "author": {
     "name": "dongchengcheng",
-    "email": "dongchengcheng@example.com"
+    "email": "chengchengdong20@gmail.com"
   },
   "keywords": [
-    "utils",
     "git",
     "commit",
+    "mr",
     "pr",
-    "summary",
+    "gitlab",
     "productivity",
     "中文"
   ],
