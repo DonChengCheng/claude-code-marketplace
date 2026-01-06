@@ -1,6 +1,6 @@
 # Claude Code 插件市场
 
-这是一个 Claude Code 插件市场，提供工作报告生成、开发工具等实用插件。
+这是一个 Claude Code 插件市场，提供工作报告生成、开发工具、文章生成等实用插件。
 
 ## 📦 可用插件
 
@@ -8,8 +8,10 @@
 
 智能工作报告生成工具，支持日报、周报、月报的自动生成与数据聚合。
 
+**版本**: v1.1.7
+
 **主要功能：**
-- 📝 **日报生成**：支持交互式、数据导入、继续昨日、模板四种模式
+- 📝 **日报生成**：支持交互式、Git导入、文件导入、继续昨日四种模式
 - 📊 **周报生成**：自动聚合日报数据，支持任务分类与统计
 - 📈 **月报生成**：智能混合周报和日报数据，自动填补覆盖缺口
 - 🎯 **智能推断**：自动识别任务类型、平台、工时计算
@@ -19,6 +21,7 @@
 - `/work-report:generate-daily-report` - 生成日报
 - `/work-report:generate-weekly-report` - 生成周报
 - `/work-report:generate-monthly-report` - 生成月报
+- `/work-report:config-platform` - 配置平台映射
 
 **包含 Skills：**
 - `daily-report` - 日报生成智能 Agent
@@ -30,50 +33,53 @@
 
 ---
 
-### 2. Utils（开发工具集）
+### 2. Developer Toolkit（开发工具集）
 
-开发辅助工具集合，提供 Git 提交总结、PR 摘要生成等实用命令。
+Git 工作流工具集，提供自动化的提交、MR 摘要生成和 GitLab MR 创建功能。
+
+**版本**: v2.0.0
+
+**主要功能：**
+- 🔄 **自动提交**：分析变更并生成规范的提交信息
+- 📋 **MR 摘要**：按 Conventional Commit 类型分类，生成结构化摘要
+- 🚀 **GitLab MR**：一键创建 Merge Request
 
 **包含命令：**
-- `/utils:commit-summary` - Git 提交内容总结并自动提交
-- `/utils:pr-summary` - 生成 PR 内容摘要（支持指定 base 分支）
-
-**包含 Skills：**
-- `pr-summary-generator` - PR 摘要生成智能 Agent
+- `/devkit:commit` - 自动生成提交信息并创建 Git 提交
+- `/devkit:mr-summary` - 生成 MR 摘要文档 (MR_SUMMARY.md)
+- `/devkit:create-mr` - 创建 GitLab Merge Request
 
 ---
 
-### 3. Dev Tools（开发工具集）
+### 3. Article Generator（文章生成器）
 
-专业开发工具集，包含 6 个专家级 Agents、1 个开发流程 Skill 和 1 个自定义命令。支持智能工作流编排和全自动化代码实现，从设计到清理的完整开发流程。
+智能文章生成工具，支持多种文章类型、快速生成与引导式创作、Web搜索集成。
 
-**包含命令：**
-- `/dev-tools:develop-feature` - 启动完整功能开发流程
-
-**包含 Skills：**
-- `feature-development-workflow` - 功能开发工作流：自动协调架构设计、代码实现、审查和清理
-
-**包含 Agents：**
-- `workflow-orchestrator` - 工作流编排器：智能识别任务意图，自动编排多 Agent 协作流程
-- `code-implementation-specialist` - 代码实现专家：TDD 驱动的自动化代码实现，替代手动编码
-- `code-cleanup` - 代码清理专家：清理冗余、调试代码和失败的修复尝试
-- `code-review-specialist` - 代码审查专家：质量分析、安全漏洞检测
-- `debug-specialist` - 调试专家：错误诊断、根因分析、问题解决
-- `feature-architect` - 功能架构师：全栈功能设计和架构规划
+**版本**: v1.0.0
 
 **主要功能：**
-- 🎯 **工作流自动化**：自动识别任务类型，编排最佳 Agent 执行顺序
-- 🤖 **自动化实现**：TDD 驱动的代码自动生成，执行计划→测试→实现→验证
-- 🧹 **智能清理**：自动识别和清理无用代码
-- 🔍 **深度审查**：全面的代码质量和安全检查
-- 🐛 **专业调试**：系统化的错误诊断和解决
-- 🏗️ **架构设计**：专业的功能设计和实现规划
+- ✍️ **双模式生成**：快速生成 / 引导式定制
+- 📚 **多种文章类型**：说明文、议论文、教程、列表文、评论、叙事文、操作指南
+- 🔍 **Web搜索集成**：自动搜索最新资料，智能信息整合
+- 🎨 **写作风格定制**：专业正式 / 通俗易懂 / 轻松幽默 / 简洁精炼
 
-**工作流模式：**
-- **功能开发流程**：架构设计 → **自动TDD实现** → 审查 → 清理
-- **Bug 修复流程**：问题诊断 → **自动修复+回归测试** → 验证 → 清理
-- **代码审查流程**：质量检查 → 可选清理
-- **重构流程**：重构设计 → **自动增量重构** → 验证 → 清理
+**包含命令：**
+- `/article-generator:generate-article` - 生成文章
+
+**使用示例：**
+```bash
+# 快速生成
+/article-generator:generate-article 如何学习编程
+
+# 指定类型
+/article-generator:generate-article 如何学习Python --type=tutorial
+
+# 启用Web搜索
+/article-generator:generate-article 2024年AI发展趋势 --search
+
+# 引导式生成
+/article-generator:generate-article --guided
+```
 
 ---
 
@@ -102,11 +108,11 @@
 # 只安装工作报告插件
 /plugin install work-report@DonChengCheng/claude-code-marketplace
 
-# 只安装工具集插件
-/plugin install utils@DonChengCheng/claude-code-marketplace
-
 # 只安装开发工具集插件
-/plugin install dev-tools@DonChengCheng/claude-code-marketplace
+/plugin install developer-toolkit@DonChengCheng/claude-code-marketplace
+
+# 只安装文章生成器插件
+/plugin install article-generator@DonChengCheng/claude-code-marketplace
 ```
 
 ---
@@ -121,26 +127,35 @@
 # 交互式生成
 /work-report:generate-daily-report
 
-# 从 Git 提交导入
-/work-report:generate-daily-report /path/to/project
+# 从 Git 提交导入（推荐）
+/work-report:generate-daily-report
 
 # 继续昨日任务
 /work-report:generate-daily-report continue
-
-# 使用空模板
-/work-report:generate-daily-report template
 ```
 
-**配置平台映射**（可选）：
+**配置平台映射**（推荐）：
 
-编辑 `skills/daily-report/platform-config.json` 来自定义项目路径到平台的映射：
+创建 `.work-report/platform-config.json` 或 `~/.claude/work-report/platform-config.json`：
 
 ```json
 {
-  "example-web-app": "网页",
-  "my-mobile-app": "移动端",
-  "your-project-name": "你的平台名称"
+  "projectPlatformMapping": {
+    "my-web-app": {
+      "platform": "网页端",
+      "path": "/Users/xxx/projects/my-web-app"
+    },
+    "my-mobile-app": {
+      "platform": "移动端",
+      "path": "/Users/xxx/projects/my-mobile-app"
+    }
+  }
 }
+```
+
+或使用命令快速配置：
+```bash
+/work-report:config-platform
 ```
 
 #### 2. 生成周报
@@ -163,86 +178,53 @@
 /work-report:generate-monthly-report weekly-only
 ```
 
-### Utils 插件
+### Developer Toolkit 插件
 
-#### 提交总结
-
-```bash
-# 总结当前更改并生成 commit
-/utils:commit-summary
-```
-
-#### PR 摘要生成
+#### 提交代码
 
 ```bash
-# 相对于 upstream/master 生成 PR 摘要
-/utils:pr-summary
-
-# 指定 base 分支
-/utils:pr-summary origin/main
+# 自动生成提交信息并提交
+/devkit:commit
 ```
 
-**功能特点：**
-- 📝 只包含核心内容（新增功能、优化改进、问题修复）
-- 🎯 自动生成简洁的 PR 标题和描述
-- 💾 自动保存到 Markdown 文件
-- 🔍 智能基准分支检测（默认 upstream/master）
-
-### Dev Tools 插件
-
-#### 功能开发命令（推荐）
+#### MR 摘要生成
 
 ```bash
-# 启动完整功能开发流程
-/dev-tools:develop-feature 实现用户认证功能
+# 生成 MR 摘要文档
+/devkit:mr-summary
 
-# 带详细描述
-/dev-tools:develop-feature Add a notification system with email and push support
-
-# 交互式模式（不带参数）
-/dev-tools:develop-feature
+# 指定基准分支
+/devkit:mr-summary origin/main
 ```
 
-该命令会自动协调以下阶段：
-1. 需求分析和代码库探索
-2. 架构设计 (feature-architect)
-3. TDD 代码实现 (code-implementation-specialist)
-4. 代码审查 (code-review-specialist)
-5. 代码清理 (code-cleanup)
-
-#### 自然语言触发 Agents
-
-除了使用命令，也可以通过自然语言触发各个 Agent：
+#### 创建 GitLab MR
 
 ```bash
-# 功能开发 - 自动触发 feature-development 工作流
-"我需要实现用户认证功能"
-
-# Bug 修复 - 自动触发 bug-fix 工作流
-"登录接口报错 TypeError"
-
-# 代码审查 - 自动触发 quality-check 工作流
-"审查这段代码"
-
-# 代码重构 - 自动触发 refactoring 工作流
-"重构 API 层使用更好的模式"
+# 创建 MR 到目标分支
+/devkit:create-mr upstream/master
 ```
 
-**工作流示例**：
+### Article Generator 插件
 
+#### 快速生成文章
+
+```bash
+# 自动推断类型
+/article-generator:generate-article 如何学习编程
+
+# 指定文章类型
+/article-generator:generate-article 10个最佳VS Code插件 --type=listicle
+
+# 启用Web搜索获取最新资料
+/article-generator:generate-article "ChatGPT vs Claude对比评测" --type=review --search
 ```
-功能开发流程（6 阶段）：
-  [1/6] 需求分析与上下文收集
-  [2/6] feature-architect → 架构设计
-  [3/6] code-implementation-specialist → TDD 实现
-  [4/6] code-review-specialist → 代码审查
-  [5/6] 质量门检查 → PASS/FAIL
-  [6/6] code-cleanup → 代码清理
 
-✅ 工作流完成！
+#### 引导式生成
+
+```bash
+# 进入引导式流程，逐步定制文章细节
+/article-generator:generate-article --guided
 ```
-
-详细文档：`plugins/dev-tools/docs/workflow-patterns.md`
 
 ---
 
@@ -253,10 +235,10 @@ claude-code-marketplace/
 ├── .claude-plugin/
 │   └── marketplace.json          # 市场配置
 ├── plugins/
-│   ├── work-report/              # 工作报告插件 (v1.0.0)
+│   ├── work-report/              # 工作报告插件 (v1.1.7)
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json
-│   │   ├── commands/             # 3 个斜杠命令
+│   │   ├── commands/             # 4 个斜杠命令
 │   │   ├── skills/               # 3 个 Skills + 共享资源
 │   │   │   ├── daily-report/
 │   │   │   ├── weekly-report/
@@ -264,29 +246,21 @@ claude-code-marketplace/
 │   │   │   └── shared/
 │   │   ├── hooks/                # 工作目录保护 Hook
 │   │   └── README.md
-│   ├── utils/                    # 工具集插件 (v1.1.0)
+│   ├── developer-toolkit/        # 开发工具集插件 (v2.0.0)
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json
-│   │   ├── commands/             # 2 个斜杠命令
-│   │   ├── skills/               # 1 个 Skill
-│   │   │   └── pr-summary-generator/
+│   │   ├── commands/             # 3 个斜杠命令
+│   │   │   ├── commit.md
+│   │   │   ├── mr-summary.md
+│   │   │   └── create-mr.md
 │   │   └── README.md
-│   └── dev-tools/                # 开发工具集插件 (v1.3.0)
+│   └── article-generator/        # 文章生成器插件 (v1.0.0)
 │       ├── .claude-plugin/
 │       │   └── plugin.json
-│       ├── agents/               # 6 个专家级 Agents
-│       │   ├── workflow-orchestrator.md
-│       │   ├── code-implementation-specialist.md
-│       │   ├── code-cleanup.md
-│       │   ├── code-review-specialist.md
-│       │   ├── debug-specialist.md
-│       │   └── feature-architect.md
 │       ├── commands/             # 1 个斜杠命令
-│       │   └── develop-feature.md
+│       │   └── generate-article.md
 │       ├── skills/               # 1 个 Skill
-│       │   └── feature-development-workflow/
-│       ├── docs/
-│       │   └── workflow-patterns.md
+│       │   └── article-writer/
 │       └── README.md
 └── README.md                      # 本文件
 ```
@@ -316,4 +290,3 @@ MIT License
 - [Claude Code 官方文档](https://code.claude.com/docs)
 - [插件开发指南](https://code.claude.com/docs/en/plugins)
 - [Hooks 使用指南](https://code.claude.com/docs/en/hooks)
-
