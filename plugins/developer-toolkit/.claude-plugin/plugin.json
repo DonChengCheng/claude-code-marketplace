@@ -1,6 +1,6 @@
 {
   "name": "developer-toolkit",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Git 工作流工具集，包含自动提交、MR 摘要生成和 GitLab MR 创建命令",
   "author": {
     "name": "dongchengcheng",
