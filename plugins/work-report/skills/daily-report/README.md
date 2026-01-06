@@ -68,16 +68,28 @@
 ```json
 {
   "projectPlatformMapping": {
-    "my-web-app": "网页端",
-    "my-mobile-app": "移动端",
-    "my-backend": "后端服务",
-    "my-miniprogram": "微信小程序"
+    "my-web-app": {
+      "platform": "网页端",
+      "path": "/Users/xxx/projects/my-web-app"
+    },
+    "my-mobile-app": {
+      "platform": "移动端",
+      "path": "/Users/xxx/projects/my-mobile-app"
+    },
+    "my-backend": {
+      "platform": "后端服务",
+      "path": "/Users/xxx/projects/my-backend"
+    },
+    "my-miniprogram": {
+      "platform": "微信小程序",
+      "path": "/Users/xxx/projects/my-miniprogram"
+    }
   }
 }
 ```
 
-- **键**: 项目目录名（支持部分匹配,如 `my-app` 可匹配 `my-app-v2`）
-- **值**: 在日报中显示的平台名称
+- **键**: 项目标识名（支持部分匹配,如 `my-app` 可匹配 `my-app-v2`）
+- **值**: 对象，包含 `platform`（平台显示名称）和 `path`（项目绝对路径）
 
 ### 无配置时的行为
 

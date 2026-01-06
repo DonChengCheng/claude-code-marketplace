@@ -33,11 +33,20 @@ allowed-tools: Read, Write, Edit, Bash(date:*), Bash(git log:*), Bash(git config
 ```json
 {
   "projectPlatformMapping": {
-    "my-web-app": "网页端",
-    "my-mobile-app": "移动端"
+    "my-web-app": {
+      "platform": "网页端",
+      "path": "/Users/xxx/projects/my-web-app"
+    },
+    "my-mobile-app": {
+      "platform": "移动端",
+      "path": "/Users/xxx/projects/my-mobile-app"
+    }
   }
 }
 ```
+
+- **键**: 项目标识名
+- **值**: 对象，包含 `platform`（平台显示名称）和 `path`（项目绝对路径）
 
 **无配置文件时的处理**:
 - 交互式模式：跳过平台选择，或让用户手动输入
@@ -48,11 +57,18 @@ allowed-tools: Read, Write, Edit, Bash(date:*), Bash(git log:*), Bash(git config
 
 ## 工作流程
 
-### 第一步: 初始化
+### 第一步: 初始化（必须完整执行）
 
 1. 获取当前日期 (`date +%Y-%m-%d`)
 2. 检查是否已存在今日日报文件 `日报_YYYY-MM-DD.md`
 3. 读取日报模板 (`./template.md`)
+4. **【关键】读取平台配置文件**（此步骤必须在询问用户之前完成）:
+   - 优先检查: `.work-report/platform-config.json`（当前工作目录）
+   - 其次检查: `~/.claude/work-report/platform-config.json`（全局配置）
+   - 如果配置文件存在，提取 `projectPlatformMapping` 中所有项目的 `path` 字段
+   - 将项目路径列表保存供后续使用
+
+> ⚠️ **重要**: 必须在第一步就读取配置文件，不能等到用户选择模式后再读取！
 
 ### 第二步: 确定工作模式
 
@@ -62,9 +78,9 @@ allowed-tools: Read, Write, Edit, Bash(date:*), Bash(git log:*), Bash(git config
 问题: "请选择日报生成方式:"
 选项:
   1. "交互式填写" - 通过对话逐项录入今天的工作任务
-  2. "从数据源导入" - 从现有文件或Git提交自动生成
-  3. "继续昨日任务" - 检查昨日未完成任务并继续填写
-  4. "空白模板" - 生成基于模板的空白日报
+  2. "从现有文件导入" - 从现有文件（如任务列表、会议记录等）导入
+  3. "从Git提交导入" - 自动扫描项目的Git提交记录生成日报 (推荐)
+  4. "继续昨日任务" - 检查昨日未完成任务并继续填写
 ```
 
 ### 第三步: 根据模式执行
@@ -90,9 +106,40 @@ allowed-tools: Read, Write, Edit, Bash(date:*), Bash(git log:*), Bash(git config
 
 4. **继续添加**: 询问是否继续添加更多任务
 
-#### 模式2: 从Git提交导入
+#### 模式2: 从现有文件导入
 
-**重要**: 必须使用 `git -C <项目路径>` 执行命令，禁止使用 `cd`。
+询问用户提供数据源文件路径，支持的格式:
+- Markdown 列表
+- JSON 格式
+- CSV 文件
+- 纯文本任务列表
+
+#### 模式3: 从Git提交导入 (推荐)
+
+> ⚠️ **配置文件已在第一步初始化时读取完成，此处直接使用！**
+
+**执行流程（严格按顺序）**:
+
+1. **检查初始化阶段获取的配置信息**:
+   - 如果第一步已成功读取配置文件且包含项目路径 → 直接进入步骤2
+   - 如果第一步未找到配置文件 → 进入步骤3
+
+2. **有配置文件时（自动执行，禁止询问用户）**:
+   - 直接使用初始化阶段获取的项目路径列表
+   - 对每个项目执行 `git -C <path> log` 获取今日提交记录
+   - **禁止使用 AskUserQuestion 询问项目路径**
+
+3. **无配置文件时**，使用 AskUserQuestion 询问:
+   ```
+   问题: "未找到平台配置文件，请选择操作:"
+   选项:
+     1. "手动输入项目路径" - 直接提供需要扫描的Git项目路径
+     2. "生成配置文件" - 使用 /config-platform 命令创建配置（推荐长期使用）
+   ```
+
+**Git命令规范**:
+- ✅ 必须使用 `git -C <项目路径>` 执行命令
+- ❌ 禁止使用 `cd` 切换目录
 
 ```bash
 # 获取Git用户名
@@ -109,16 +156,12 @@ git -C /path/to/project log --all \
 
 详细的Git导入流程参阅 `../shared/git-import-guide.md`。
 
-#### 模式3: 继续昨日任务
+#### 模式4: 继续昨日任务
 
 1. 读取昨日日报文件
 2. 识别进度 < 100% 的任务
 3. 询问是否继续这些任务
 4. 更新进度和累计工时
-
-#### 模式4: 空白模板
-
-直接基于模板生成空白日报，保留示例行供参考。
 
 ### 第四步: 智能计算
 
