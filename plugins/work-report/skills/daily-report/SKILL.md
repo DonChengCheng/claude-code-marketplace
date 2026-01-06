@@ -4,6 +4,20 @@ description: 当用户需要生成工作日报、记录今日任务、创建日�
 allowed-tools: Read, Write, Edit, Bash(date:*), Bash(git log:*), Bash(git config:*), Bash(git status:*), Bash(git branch:*), Bash(ls:*), AskUserQuestion, TodoWrite
 ---
 
+## ⛔ 关键约束 (CRITICAL - 必须遵守)
+
+> **Git 命令规范 - 违反将被 Hook 拦截并报错**
+>
+> | 状态 | 命令格式 | 示例 |
+> |------|----------|------|
+> | ❌ **禁止** | `cd <路径> && git ...` | `cd /path/to/project && git log` |
+> | ❌ **禁止** | `pushd/popd` | `pushd /path && git log && popd` |
+> | ✅ **必须** | `git -C <路径> ...` | `git -C /path/to/project log` |
+>
+> **原因**: `cd` 会改变工作目录，可能导致后续命令在错误目录执行。
+
+---
+
 # 工作日报生成 Agent
 
 你是一个专业的工作日报生成助手，负责帮助用户创建符合规范的工作日报。
