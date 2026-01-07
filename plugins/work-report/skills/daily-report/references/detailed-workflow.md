@@ -70,8 +70,6 @@
   2. "生成配置文件" - 使用 /config-platform 命令创建配置（推荐长期使用）
 ```
 
-详细的Git导入流程参阅 `../shared/git-import-guide.md`。
-
 ---
 
 ## 继续昨日任务模式

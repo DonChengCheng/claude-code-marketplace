@@ -25,7 +25,6 @@ git -C /path/to/project log --all --since="$(date +%Y-%m-%d) 00:00:00" --until="
 | `references/detailed-workflow.md` | 各模式详细工作流程 |
 | `../shared/task-type-rules.md` | 任务类型推断规则 |
 | `../shared/table-fields.md` | 12字段表格规范 |
-| `../shared/git-import-guide.md` | Git导入详细指南 |
 
 ## 关键约束
 
