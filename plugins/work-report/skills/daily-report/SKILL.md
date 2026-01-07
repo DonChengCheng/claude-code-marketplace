@@ -1,100 +1,60 @@
 ---
 name: daily-report
-description: 当用户需要生成工作日报、记录今日任务、创建日报文件、从Git提交导入任务时使用此技能。支持交互式填写、数据源导入、继续昨日任务等多种模式。
+description: 生成工作日报，支持任务跟踪。当用户需要创建日报、记录今日任务、从Git提交导入、继续昨日任务时触发。支持交互式填写、文件导入、Git导入三种模式。
 allowed-tools: Read, Write, Edit, Bash(date:*), Bash(git log:*), Bash(git config:*), Bash(git status:*), Bash(git branch:*), Bash(ls:*), Bash(cat:*), AskUserQuestion, TodoWrite
 ---
 
-# 工作日报生成 Agent
+# 工作日报生成
 
-你是一个专业的工作日报生成助手，负责帮助用户创建符合规范的工作日报。
+## 快速开始
 
-## 核心能力
+Git提交导入（最常用）:
 
-1. **交互式填写**: 引导用户逐项录入任务信息
-2. **智能推断**: 自动推断任务类型、计算时间
-3. **Git导入**: 从Git提交记录自动生成日报
-4. **进度跟踪**: 检测并继续未完成任务
-5. **平台识别**: 自动识别任务所属平台
+```bash
+# 1. 读取平台配置
+cat .work-report/platform-config.json 2>/dev/null || cat ~/.claude/work-report/platform-config.json
+
+# 2. 获取今日提交记录
+git -C /path/to/project log --all --since="$(date +%Y-%m-%d) 00:00:00" --until="$(date +%Y-%m-%d) 23:59:59" --author="用户名" --pretty=format:"%H|%s"
+```
 
 ## 参考文档
 
-- 详细工作流程: `references/detailed-workflow.md`
-- 任务类型推断规则: `../shared/task-type-rules.md`
-- 表格字段规范: `../shared/table-fields.md`
-- Git导入指南: `../shared/git-import-guide.md`
+| 文档 | 用途 |
+|------|------|
+| `references/detailed-workflow.md` | 各模式详细工作流程 |
+| `../shared/task-type-rules.md` | 任务类型推断规则 |
+| `../shared/table-fields.md` | 12字段表格规范 |
+| `../shared/git-import-guide.md` | Git导入详细指南 |
 
 ## 关键约束
 
-> 以下约束必须严格遵守，不可违反。
-
-### Git 命令安全规范
-- **必须使用** `git -C <项目路径>` 执行所有 Git 命令
-- **禁止使用** `cd` 切换目录（会影响后续命令执行）
-
-### 配置来源
-- 初始化时主动读取配置文件
-- 优先检查: `.work-report/platform-config.json`（当前工作目录）
-- 其次检查: `~/.claude/work-report/platform-config.json`（全局配置）
-- 读取命令: `cat .work-report/platform-config.json 2>/dev/null || cat ~/.claude/work-report/platform-config.json 2>/dev/null`
-
-### Git导入模式行为
-- 有配置文件时：**直接使用**配置中的项目路径，**禁止询问用户**
-- 无配置文件时：询问用户手动输入路径或创建配置
+| 约束 | 规则 |
+|------|------|
+| Git命令 | **必须**使用 `git -C <路径>`，**禁止**使用 `cd` |
+| 配置优先级 | 本地 `.work-report/` > 全局 `~/.claude/work-report/` |
+| Git导入(有配置) | 直接使用配置路径，**禁止询问用户** |
+| Git导入(无配置) | 询问用户输入路径或建议 `/config-platform` |
 
 ## 工作流程
 
-### 第一步: 初始化
-1. 获取当前日期 (`date +%Y-%m-%d`)
-2. 检查是否已存在今日日报文件 `日报_YYYY-MM-DD.md`
-3. 读取日报模板 (`template.md`)
-4. 读取平台配置文件（参见上方"配置来源"）
-
-### 第二步: 确定工作模式
-
-使用 AskUserQuestion 询问:
-```
-问题: "请选择日报生成方式:"
-选项:
-  1. "交互式填写" - 通过对话逐项录入今天的工作任务
-  2. "从现有文件导入" - 从现有文件（如任务列表、会议记录等）导入
-  3. "从Git提交导入" - 自动扫描项目的Git提交记录生成日报 (推荐)
-  4. "继续昨日任务" - 检查昨日未完成任务并继续填写
-```
-
-### 第三步: 根据模式执行
-
-| 模式 | 说明 |
-|------|------|
-| 交互式填写 | 使用 TodoWrite 跟踪，逐项引导收集任务信息 |
-| 从文件导入 | 支持 Markdown、JSON、CSV、纯文本格式 |
-| 从Git导入 | 使用 `git -C <路径> log` 获取提交，自动生成任务 |
-| 继续昨日 | 读取昨日日报，识别未完成任务 |
-
-> 各模式的详细流程参见 `references/detailed-workflow.md`
-
-### 第四步: 生成日报文件
-
-1. 生成完整的12字段表格
-2. 生成按分类分组的工作总结
-3. 添加总工时统计
-4. 保存为 `日报_YYYY-MM-DD.md`
+1. **初始化**: 获取日期、检查已有日报、读取模板和配置
+2. **选择模式**: 交互式 / 文件导入 / Git导入 / 继续昨日
+3. **执行**: 按 `references/detailed-workflow.md` 执行对应模式
+4. **生成**: 12字段表格 + 分类总结 + 总工时 → `日报_YYYY-MM-DD.md`
 
 ## 错误处理
 
-| 错误场景 | 处理方式 |
-|----------|----------|
-| 模板文件不存在 | 提示错误并终止 |
-| 数据验证失败 | 指出具体问题，要求修正 |
-| 文件已存在 | 询问是否覆盖或编辑 |
-| Git提交为空 | 告知指定日期范围内无提交，建议调整日期或选择其他模式 |
-| 昨日日报不存在 | 提示无法继续昨日任务，建议选择其他模式 |
-| 配置文件不存在 | 询问用户手动输入项目路径或使用 `/config-platform` 创建配置 |
+| 场景 | 处理 |
+|------|------|
+| 模板不存在 | 报错并终止 |
+| 日报已存在 | 询问覆盖或编辑 |
+| Git无提交 | 建议其他模式 |
+| 无配置文件 | 询问手动输入或创建配置 |
 
 ## 成功标准
 
-生成的日报必须:
-1. 包含完整的12字段表格
-2. 所有字段都有有效数据
-3. 包含按分类分组的总结（有配置时带平台标签，无配置时省略）
-4. 包含总工时统计
-5. 格式符合模板规范
+生成的日报必须包含:
+- 完整的12字段任务表格
+- 按分类分组的工作总结（新增功能、交互优化、Bug修复）
+- 总计工作时长
