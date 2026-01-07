@@ -1,5 +1,5 @@
 {
-  "description": "工作目录保护：阻止改变工作目录的 cd 命令，确保多项目工作流的稳定性",
+  "description": "工作报告插件 hooks：工作目录保护",
   "hooks": {
     "PreToolUse": [
       {
