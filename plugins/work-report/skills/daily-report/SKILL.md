@@ -11,8 +11,8 @@ allowed-tools: Read, Write, Edit, Bash(date:*), Bash(git log:*), Bash(git config
 Git提交导入（最常用）:
 
 ```bash
-# 1. 读取平台配置
-cat .work-report/platform-config.json 2>/dev/null || cat ~/.claude/work-report/platform-config.json
+# 1. 读取平台配置（优先当前工作目录，必须使用 $(pwd) 获取绝对路径）
+cat "$(pwd)/.work-report/platform-config.json" 2>/dev/null || cat ~/.claude/work-report/platform-config.json
 
 # 2. 获取今日提交记录
 git -C /path/to/project log --all --since="$(date +%Y-%m-%d) 00:00:00" --until="$(date +%Y-%m-%d) 23:59:59" --author="用户名" --pretty=format:"%H|%s"
@@ -31,7 +31,8 @@ git -C /path/to/project log --all --since="$(date +%Y-%m-%d) 00:00:00" --until="
 | 约束 | 规则 |
 |------|------|
 | Git命令 | **必须**使用 `git -C <路径>`，**禁止**使用 `cd` |
-| 配置优先级 | 本地 `.work-report/` > 全局 `~/.claude/work-report/` |
+| 配置读取 | **必须**使用 `$(pwd)/.work-report/` 读取本地配置，不可使用相对路径 |
+| 配置优先级 | 本地 `$(pwd)/.work-report/` > 全局 `~/.claude/work-report/` |
 | Git导入(有配置) | 直接使用配置路径，**禁止询问用户** |
 | Git导入(无配置) | 询问用户输入路径或建议 `/config-platform` |
 
@@ -57,7 +58,11 @@ git -C /path/to/project log --all --since="$(date +%Y-%m-%d) 00:00:00" --until="
 
 ## 工作流程
 
-1. **初始化**: 获取日期、检查已有日报、读取模板和配置
+1. **初始化**:
+   - 使用 `$(pwd)` 获取当前工作目录绝对路径
+   - **优先**读取 `$(pwd)/.work-report/platform-config.json`
+   - 若不存在再读取 `~/.claude/work-report/platform-config.json`
+   - 获取日期、检查已有日报、读取模板
 2. **选择模式**: 交互式 / 文件导入 / Git导入 / 继续昨日
 3. **执行**: 按 `references/detailed-workflow.md` 执行对应模式
 4. **生成**: 12字段表格 + 分类总结 + 总工时 → `日报_YYYY-MM-DD.md`

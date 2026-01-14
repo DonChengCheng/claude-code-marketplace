@@ -1,5 +1,54 @@
 # 日报生成 Skill 更新日志
 
+## v1.3.10 - 2026-01-14 🔧
+
+### 修复: 配置文件读取路径优先级问题
+
+#### 问题描述
+在其他项目使用日报技能时，没有优先读取当前工作目录下的 `.work-report/platform-config.json`，而是直接读取全局配置。
+
+**根本原因**: 使用相对路径 `.work-report/platform-config.json` 时，Claude 执行命令的"当前目录"可能不是用户的项目目录。
+
+#### 解决方案
+
+**1. 修改配置读取命令，使用 `$(pwd)` 获取绝对路径**
+
+改进前:
+```bash
+cat .work-report/platform-config.json 2>/dev/null || cat ~/.claude/work-report/platform-config.json
+```
+
+改进后:
+```bash
+cat "$(pwd)/.work-report/platform-config.json" 2>/dev/null || cat ~/.claude/work-report/platform-config.json
+```
+
+**2. 强化关键约束说明**
+
+新增约束规则:
+| 配置读取 | **必须**使用 `$(pwd)/.work-report/` 读取本地配置，不可使用相对路径 |
+
+**3. 细化工作流程初始化步骤**
+
+明确初始化时配置读取顺序:
+1. 使用 `$(pwd)` 获取当前工作目录绝对路径
+2. **优先**读取 `$(pwd)/.work-report/platform-config.json`
+3. 若不存在再读取 `~/.claude/work-report/platform-config.json`
+
+#### 文档更新
+
+- 更新 `SKILL.md` 第 14-15 行: 配置读取命令使用 `$(pwd)` 绝对路径
+- 更新 `SKILL.md` 第 33-35 行: 新增配置读取约束规则
+- 更新 `SKILL.md` 第 61-65 行: 细化初始化步骤说明
+
+#### 影响范围
+
+- ✅ 在任意项目目录执行日报技能时，能正确读取该项目的本地配置
+- ✅ 本地配置优先级高于全局配置
+- ✅ 消除相对路径导致的歧义问题
+
+---
+
 ## v1.2.1 - 2026-01-06 🔧
 
 ### 重要改进: 优化配置文件读取时机
