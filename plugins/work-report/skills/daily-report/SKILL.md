@@ -6,26 +6,6 @@ allowed-tools: Read, Write, Edit, Bash(date:*), Bash(git log:*), Bash(git config
 
 # 工作日报生成
 
-## 快速开始
-
-Git提交导入（最常用）:
-
-```bash
-# 1. 读取平台配置（优先当前工作目录，必须使用 $(pwd) 获取绝对路径）
-cat "$(pwd)/.work-report/platform-config.json" 2>/dev/null || cat ~/.claude/work-report/platform-config.json
-
-# 2. 获取今日提交记录
-git -C /path/to/project log --all --since="$(date +%Y-%m-%d) 00:00:00" --until="$(date +%Y-%m-%d) 23:59:59" --author="用户名" --pretty=format:"%H|%s"
-```
-
-## 参考文档
-
-| 文档 | 用途 |
-|------|------|
-| `references/detailed-workflow.md` | 各模式详细工作流程 |
-| `../shared/task-type-rules.md` | 任务类型推断规则 |
-| `../shared/table-fields.md` | 12字段表格规范 |
-
 ## 关键约束
 
 | 约束 | 规则 |
@@ -36,36 +16,43 @@ git -C /path/to/project log --all --since="$(date +%Y-%m-%d) 00:00:00" --until="
 | Git导入(有配置) | 直接使用配置路径，**禁止询问用户** |
 | Git导入(无配置) | 询问用户输入路径或建议 `/config-platform` |
 
-## 功能模块标识
+## 快速开始
 
-从 Git commit message 的 conventional commit 格式自动提取功能模块：
+Git提交导入（最常用）:
 
-**提取规则**: `type(scope): message` → 【scope中文名】
+1. 读取平台配置（优先当前工作目录）
+   ```bash
+   cat "$(pwd)/.work-report/platform-config.json" 2>/dev/null || cat ~/.claude/work-report/platform-config.json
+   ```
 
-| Commit scope | 模块标识 |
-|--------------|----------|
-| `shopping` | 【商城】 |
-| `schedule` | 【日程】 |
-| `chat` | 【聊天】 |
-| `editor` | 【编辑器】 |
-| `file` | 【文件】 |
-| `user` | 【用户】 |
-| 其他英文 | 【首字母大写英文】 |
+2. 从配置文件的 `projects` 数组获取项目路径列表
 
-**任务名称格式**:
-- 表格中：`【模块】任务描述`
-- 总结中：`[平台]【模块】任务描述`
+3. 对每个项目执行 `git -C <项目路径> log --all` 获取今日提交记录
 
 ## 工作流程
 
-1. **初始化**:
-   - 使用 `$(pwd)` 获取当前工作目录绝对路径
-   - **优先**读取 `$(pwd)/.work-report/platform-config.json`
-   - 若不存在再读取 `~/.claude/work-report/platform-config.json`
-   - 获取日期、检查已有日报、读取模板
-2. **选择模式**: 交互式 / 文件导入 / Git导入 / 继续昨日
-3. **执行**: 按 `references/detailed-workflow.md` 执行对应模式
-4. **生成**: 12字段表格 + 分类总结 + 总工时 → `日报_YYYY-MM-DD.md`
+### 第1步：初始化
+- 使用 `$(pwd)` 获取当前工作目录绝对路径
+- **优先**读取 `$(pwd)/.work-report/platform-config.json`
+- 若不存在再读取 `~/.claude/work-report/platform-config.json`
+- 获取日期、检查已有日报
+
+### 第2步：选择并执行模式
+询问用户选择模式后 → **读取 `references/detailed-workflow.md`**
+
+按文档中对应模式的流程执行：
+- 交互式填写 / 文件导入 / Git导入 / 继续昨日
+
+### 第3步：处理任务数据
+解析每个任务时 → **读取 `../shared/task-type-rules.md`**
+
+- 从任务描述推断类型（[页面]/[操作]等）
+- 从 commit scope 提取功能模块标识（如 `shopping` → 【商城】）
+
+### 第4步：生成日报
+生成表格前 → **读取 `../shared/table-fields.md`**
+
+输出：12字段表格 + 分类总结 + 总工时 → `日报_YYYY-MM-DD.md`
 
 ## 错误处理
 
@@ -80,5 +67,5 @@ git -C /path/to/project log --all --since="$(date +%Y-%m-%d) 00:00:00" --until="
 
 生成的日报必须包含:
 - 完整的12字段任务表格，任务名称包含功能模块标识如 `【商城】`
-- 按分类分组的工作总结（标题需包含当天日期，格式如 `## YYYY年MM月DD日工作内容总结`），任务分类包括新增功能、交互优化、Bug修复，任务名称前加平台标签如 `[网页端]` 和功能模块标识如 `【商城】`
+- 按分类分组的工作总结（标题格式：`## YYYY年MM月DD日工作内容总结`），任务分类包括新增功能、交互优化、Bug修复，任务名称前加平台标签如 `[网页端]` 和功能模块标识
 - 总计工作时长
