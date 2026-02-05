@@ -70,6 +70,22 @@
   2. "生成配置文件" - 使用 /config-platform 命令创建配置（推荐长期使用）
 ```
 
+**4. 解析提交并拆分多Issue任务**:
+- 解析 Conventional Commits 格式: `type(scope): message #issue1 #issue2`
+- 提取所有issue编号（正则: `#(\d+)`）
+- **单issue提交**: 直接作为一个任务
+- **多issue提交**: 拆分为独立任务
+  - 分析commit message中的并列描述（用"、"或"和"分隔）
+  - 每个issue对应一个独立任务行
+  - 工时 = 原提交估算工时 / issue数量（最小0.25小时）
+
+**5. 规范化任务描述**:
+根据commit类型生成规范化描述:
+- `fix` → "修复[问题描述]的问题"
+- `feat` → "实现[功能描述]"
+- `perf`/`refactor`/`style` → "优化[内容描述]"
+- `chore`/`docs` → 保持原描述
+
 ---
 
 ## 继续昨日任务模式
