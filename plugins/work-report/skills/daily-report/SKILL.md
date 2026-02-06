@@ -15,6 +15,10 @@ allowed-tools: Read, Write, Edit, Bash(date:*), Bash(git log:*), Bash(git config
 | 配置优先级 | 本地 `$(pwd)/.work-report/` > 全局 `~/.claude/work-report/` |
 | Git导入(有配置) | 直接使用配置路径，**禁止询问用户** |
 | Git导入(无配置) | 询问用户输入路径或建议 `/config-platform` |
+| 总工时 | **必须**为 8.0 小时，根据任务复杂度智能调整各任务工时 |
+| 时间格式 | 所有时间字段统一使用 `YYYY-MM-DD`（仅日期，不含时分） |
+| AI处理百分比 | **固定**为 80% |
+| 是否存在异常 | **固定**为"无" |
 
 ## 快速开始
 
