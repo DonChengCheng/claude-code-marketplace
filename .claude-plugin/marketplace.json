@@ -21,12 +21,6 @@
       "source": "./plugins/developer-toolkit",
       "description": "Git 工作流工具集，包含自动提交、MR 摘要生成和 GitLab MR 创建命令",
       "category": "development"
-    },
-    {
-      "name": "article-generator",
-      "source": "./plugins/article-generator",
-      "description": "智能文章生成工具，支持多种文章类型、快速生成与引导式创作、Web搜索集成",
-      "category": "content"
     }
   ]
 }
